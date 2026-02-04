@@ -1,0 +1,81 @@
+
+# Main domain - Landing Page (Angular)
+{$DOMAIN} {
+
+    # Svelte - Author Introduction (/me)
+    handle /me/* {
+        reverse_proxy frontend-me:80
+    }
+    handle /me {
+        redir /me/ permanent
+    }
+
+    # Backend API accessible from main domain
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    # Default - Angular landing page
+    handle {
+        reverse_proxy frontend-main:80
+    }
+
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+
+# Blog subdomain (Vue.js)
+blog.{$DOMAIN} {
+
+    reverse_proxy frontend-blog:80
+
+    # Backend API for blog CRUD
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+
+# CV/Portfolio subdomain (React)
+cv.{$DOMAIN} {
+
+    reverse_proxy frontend-cv:80
+
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}

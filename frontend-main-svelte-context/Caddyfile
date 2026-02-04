@@ -1,0 +1,20 @@
+:80 {
+	handle /me/* {
+		uri strip_prefix /me
+		root * /srv
+		file_server
+		try_files {path} /index.html
+	}
+
+	handle /me {
+		redir /me/ permanent
+	}
+
+	encode gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}

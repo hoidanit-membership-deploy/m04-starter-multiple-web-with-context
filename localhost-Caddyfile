@@ -1,0 +1,47 @@
+
+# Main landing page (Angular) - localhost
+localhost:80 {
+
+    # Svelte - Author Introduction (/me)
+    handle /me/* {
+        reverse_proxy frontend-me:80
+    }
+    handle /me {
+        redir /me/ permanent
+    }
+
+    # Backend API
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    # Default - Angular landing page
+    handle {
+        reverse_proxy frontend-main:80
+    }
+
+    log {
+        output stdout
+        format console
+    }
+}
+
+# Blog (Vue.js) - localhost:8081
+localhost:8081 {
+    reverse_proxy frontend-blog:80
+
+    log {
+        output stdout
+        format console
+    }
+}
+
+# CV/Portfolio (React) - localhost:8082
+localhost:8082 {
+    reverse_proxy frontend-cv:80
+
+    log {
+        output stdout
+        format console
+    }
+}
