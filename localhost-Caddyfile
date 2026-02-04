@@ -1,13 +1,15 @@
 
+{
+    auto_https off
+}
+
 # Main landing page (Angular) - localhost
-localhost:80 {
+:80 {
 
     # Svelte - Author Introduction (/me)
-    handle /me/* {
+    @me path /me /me/*
+    handle @me {
         reverse_proxy frontend-me:80
-    }
-    handle /me {
-        redir /me/ permanent
     }
 
     # Backend API
@@ -27,7 +29,7 @@ localhost:80 {
 }
 
 # Blog (Vue.js) - localhost:8081
-localhost:8081 {
+:8081 {
     reverse_proxy frontend-blog:80
 
     log {
@@ -37,7 +39,7 @@ localhost:8081 {
 }
 
 # CV/Portfolio (React) - localhost:8082
-localhost:8082 {
+:8082 {
     reverse_proxy frontend-cv:80
 
     log {

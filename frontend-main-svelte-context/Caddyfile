@@ -1,13 +1,10 @@
 :80 {
-	handle /me/* {
+	@me path /me /me/*
+	handle @me {
 		uri strip_prefix /me
 		root * /srv
 		file_server
 		try_files {path} /index.html
-	}
-
-	handle /me {
-		redir /me/ permanent
 	}
 
 	encode gzip
